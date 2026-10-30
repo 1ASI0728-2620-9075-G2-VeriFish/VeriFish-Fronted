@@ -30,3 +30,7 @@ firebase deploy --only hosting --project yakucontrol-v2
 La compilación release está autorizada solo para publicar la Web. `firebase.json` conserva FlutterFire y publica `build/web`; `.firebaserc` apunta a `yakucontrol-v2`. No desplegar otros servicios ni proyectos. Revisar https://yakucontrol-v2.web.app después de publicar.
 
 Cerrar sesión y volver a ingresar al desplegar el cambio de aislamiento. Tras crear una granja se cierra la sesión para obtener un JWT con `farmId` en el siguiente login. Un 403 conserva la sesión y explica el problema de permisos; un 401 limpia únicamente las preferencias de sesión y devuelve al login. Usuarios sin granja y usuarios de otras granjas requieren pruebas contra Azure con cuentas dedicadas.
+
+## Estado al 30/10/2026
+
+Web publicada en https://yakucontrol-v2.web.app, versión Hosting `b27c1e8c2210d609`. Azure todavía rechaza CORS desde los dominios Firebase; el login publicado depende de corregir esos orígenes.
