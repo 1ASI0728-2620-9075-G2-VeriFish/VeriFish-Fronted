@@ -107,7 +107,7 @@ def run():
             page.get_by_text('Elige un estanque', exact=True).click()
             page.get_by_role('menuitem', name='Estanque TB2 navegador', exact=True).first.click()
             page.get_by_role('button', name='Linkear', exact=True).click()
-            expect(page.get_by_role('button', name='Linkear', exact=True)).to_have_count(0, timeout=30000)
+            expect(page.get_by_text('Seleccionar Estanque', exact=True)).to_have_count(0, timeout=30000)
             results.append('vincular equipo a estanque: OK')
             screenshot('exec-web-equipment.png')
             page.get_by_role('button', name='Notificaciones', exact=True).click()
