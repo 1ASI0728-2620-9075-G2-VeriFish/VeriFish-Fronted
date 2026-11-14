@@ -4,8 +4,25 @@ import '../domain/user.dart';
 import '../utils/token_storage.dart';
 import 'auth_service.dart' as svc;
 import 'fcm_service.dart';
+import 'http_client.dart';
 
 class AuthProvider extends ChangeNotifier {
+  AuthProvider() {
+    sessionInvalidations.addListener(_expireSession);
+  }
+
+  void _expireSession() {
+    _user = null;
+    _error = 'Tu sesión venció. Vuelve a ingresar.';
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    sessionInvalidations.removeListener(_expireSession);
+    super.dispose();
+  }
+
   User? _user;
   bool _loading = false;
   String? _error;
@@ -100,13 +117,17 @@ class AuthProvider extends ChangeNotifier {
         final msg = data['message'] ?? data['error'] ?? data['detail'];
         if (msg != null) return msg.toString();
       }
-      if (data is String && data.isNotEmpty && !data.trimLeft().startsWith('<')) return data;
+      if (data is String && data.isNotEmpty && !data.trimLeft().startsWith('<')) {
+        return data;
+      }
       final status = e.response?.statusCode;
       if (status == 409) return 'El usuario o email ya está registrado';
       if (status == 400) return 'Datos inválidos, revisa los campos';
       if (status == 403) return 'Acceso denegado por el servidor';
       if (status == 401) return 'No autorizado';
-      if (status != null && status >= 500) return 'Error en el servidor ($status). Intenta más tarde.';
+      if (status != null && status >= 500) {
+        return 'Error en el servidor ($status). Intenta más tarde.';
+      }
       if (status != null) return 'Error del servidor ($status)';
     }
     return fallback;

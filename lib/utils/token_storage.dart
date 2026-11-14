@@ -51,7 +51,17 @@ class TokenStorage {
 
   static Future<void> clear() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    for (final key in [
+      _keyToken,
+      _keyUserId,
+      _keyUsername,
+      _keyFirstName,
+      _keyLastName,
+      _keyEmail,
+      _keyRole,
+    ]) {
+      await prefs.remove(key);
+    }
   }
 
   static Future<bool> hasSession() async {

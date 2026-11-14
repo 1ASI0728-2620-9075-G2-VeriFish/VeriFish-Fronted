@@ -6,7 +6,12 @@ class Farm {
   final String name;
   final int ownerId;
   final String address;
-  const Farm({required this.id, required this.name, required this.ownerId, required this.address});
+  const Farm({
+    required this.id,
+    required this.name,
+    required this.ownerId,
+    required this.address,
+  });
   factory Farm.fromJson(Map<String, dynamic> j) => Farm(
     id: j['id'] as int,
     name: j['name']?.toString() ?? '',
@@ -15,31 +20,54 @@ class Farm {
   );
 }
 
+Future<Farm?> getOwnedFarm(int userId) async {
+  final response = await httpClient.get(ApiEndpoints.farmsBase);
+  final farms = (response.data as List? ?? []).map(
+    (item) => Farm.fromJson(item as Map<String, dynamic>),
+  );
+  for (final farm in farms) {
+    if (farm.ownerId == userId) return farm;
+  }
+  return null;
+}
+
 Future<Farm?> getUserFarm(int userId) async {
   try {
     final res = await httpClient.get(ApiEndpoints.farmsBase);
     final list = res.data as List? ?? [];
     if (list.isEmpty) return null;
-    final farms = list.map((e) => Farm.fromJson(e as Map<String, dynamic>)).toList();
+    final farms = list
+        .map((e) => Farm.fromJson(e as Map<String, dynamic>))
+        .toList();
 
     // Check ownership first (ADMIN)
-    final owned = farms.cast<Farm?>().firstWhere((f) => f!.ownerId == userId, orElse: () => null);
+    final owned = farms.cast<Farm?>().firstWhere(
+      (f) => f!.ownerId == userId,
+      orElse: () => null,
+    );
     if (owned != null) return owned;
 
     // For OPERATOR: find farm they're assigned to
     for (final farm in farms) {
       try {
-        final usersRes = await httpClient.get(ApiEndpoints.usersByFarm(farm.id));
+        final usersRes = await httpClient.get(
+          ApiEndpoints.usersByFarm(farm.id),
+        );
         final users = usersRes.data as List? ?? [];
         if (users.any((u) => (u['id'] as num?)?.toInt() == userId)) return farm;
       } catch (_) {}
     }
     return null;
-  } catch (_) { return null; }
+  } catch (_) {
+    return null;
+  }
 }
 
 Future<Farm> createFarm({required String name, required String address}) async {
-  final res = await httpClient.post(ApiEndpoints.farmsBase, data: {'name': name, 'address': address});
+  final res = await httpClient.post(
+    ApiEndpoints.farmsBase,
+    data: {'name': name, 'address': address},
+  );
   return Farm.fromJson(res.data as Map<String, dynamic>);
 }
 

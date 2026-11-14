@@ -1,1 +1,60 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"yakucontrol-v2","appId":"1:767319495769:android:b779eaeca7fd7912e84d48","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"yakucontrol-v2","configurations":{"android":"1:767319495769:android:b779eaeca7fd7912e84d48","ios":"1:767319495769:ios:cfa8e1297397d026e84d48","macos":"1:767319495769:ios:cfa8e1297397d026e84d48","web":"1:767319495769:web:b1e6d0f52dcf9fa8e84d48","windows":"1:767319495769:web:0e271f7452b6394fe84d48"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "yakucontrol-v2",
+          "appId": "1:767319495769:android:b779eaeca7fd7912e84d48",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "yakucontrol-v2",
+          "configurations": {
+            "android": "1:767319495769:android:b779eaeca7fd7912e84d48",
+            "ios": "1:767319495769:ios:cfa8e1297397d026e84d48",
+            "macos": "1:767319495769:ios:cfa8e1297397d026e84d48",
+            "web": "1:767319495769:web:b1e6d0f52dcf9fa8e84d48",
+            "windows": "1:767319495769:web:0e271f7452b6394fe84d48"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/flutter_bootstrap.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ],
+    "site": "yakucontrol-v2"
+  }
+}
