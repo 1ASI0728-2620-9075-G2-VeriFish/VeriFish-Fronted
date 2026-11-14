@@ -88,6 +88,7 @@ class _DesktopLayout extends StatelessWidget {
                           ),
                         ),
                         IconButton(
+                          tooltip: 'Cerrar sesión',
                           icon: const Icon(Icons.logout, color: Color(0xFF94A3B8), size: 18),
                           onPressed: () async {
                             await auth.logout();
@@ -126,7 +127,7 @@ class _SidebarItem extends StatelessWidget {
         color: selected ? kPrimary.withOpacity(0.15) : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: ListTile(
+      child: Material(color: Colors.transparent, child: ListTile(
         dense: true,
         leading: Icon(item.icon, color: selected ? kPrimary : const Color(0xFF94A3B8), size: 20),
         title: Text(
@@ -138,7 +139,7 @@ class _SidebarItem extends StatelessWidget {
           ),
         ),
         onTap: () => context.go(item.route),
-      ),
+      )),
     );
   }
 }

@@ -63,3 +63,8 @@ AuthKey_*.p8
 # Descomentar si el proyecto desea omitir credenciales de Firebase en repositorios públicos:
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
+
+# Local code intelligence and browser test caches
+.codegraph/
+__pycache__/
+.firebase/
